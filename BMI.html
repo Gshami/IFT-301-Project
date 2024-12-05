@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>BMI Calculator</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-image: url('WelcomePage.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    color: white; 
+    min-height: 100vh; 
+}
+
+.container {
+    max-width: 300px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 20px;
+    border-radius: 10px;
+}
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: yellow;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #aab922;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+    <section class="header">
+        <nav>
+            <div class="links">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">About us</a></li>
+                    <li><a href="ContactPage.html">Contact Us</a></li>
+                    <li><a href="BMI.html">BMI</a></li>
+                </ul>
+            </div>
+        </nav>
+    <div class="container">
+        <h1>BMI Calculator</h1>
+        <form id="bmiForm" onsubmit="return calculateBMI();">
+            <p>Enter your weight (kg) and height (feet and inches):</p>
+            <input type="number" id="weight" placeholder="Weight in kg" required>
+            <input type="number" id="feet" placeholder="Height in feet" required>
+            <input type="number" id="inches" placeholder="Height in inches" required>
+            <button type="submit">Calculate BMI</button>
+        </form>
+        <div class="result" id="bmiResult"></div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const feet = parseFloat(document.getElementById('feet').value);
+            const inches = parseFloat(document.getElementById('inches').value);
+
+            if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0) {
+                document.getElementById('bmiResult').innerText = "Please enter valid weight, feet, and inches.";
+                return false; 
+            }
+
+            const totalInches = (feet * 12) + inches;
+            const heightInMeters = totalInches * 0.0254; // 1 inch = 0.0254 meters
+
+            const bmi = weight / (heightInMeters * heightInMeters);
+
+            let category = "";
+            if (bmi < 18.5) {
+                category = "Underweight";
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                category = "Normal weight";
+            } else if (bmi >= 25 && bmi < 29.9) {
+                category = "Overweight";
+            } else {
+                category = "Obese";
+            }
+
+            document.getElementById('bmiResult').innerText = `Your BMI is ${bmi.toFixed(2)} (${category}).`;
+
+            return false;
+        }
+    </script>
+</body>
+</html>
